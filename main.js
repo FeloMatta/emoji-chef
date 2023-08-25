@@ -10,6 +10,7 @@ const ingredients = document.querySelectorAll('.ingredient');
 const bowlSlots = document.querySelectorAll('.bowl-slot');
 const cookButton = document.querySelector('#cook-button');
 const loading = document.querySelector('.loading');
+const loadingMessage = document.querySelector('.loading-message');
 const modal = document.querySelector('.modal');
 const modalClose = document.querySelector('.modal-close');
 const recipeContent = document.querySelector('.recipe-content');
@@ -52,7 +53,13 @@ function addIngredient(ingredient){
 }
 
 async function createRecipe() {
+    loadingMessage.innerText = getRandomLoadingMessage();
     loading.classList.remove('hidden');
+
+    const interval = setInterval(() => {
+        loadingMessage.innerText = getRandomLoadingMessage();
+        
+    }, 2000);
 
     const prompt = `\
 Crea una ricetta con questi ingredienti: ${bowl.join(', ')}.
@@ -81,6 +88,7 @@ Le tue risposte sono solo in formato JSON come questo esempio:
 
     loading.classList.add('hidden');
     modal.classList.remove('hidden');
+    clearInterval(interval);
 
     recipeContent.innerHTML = `\
 <h2>${recipe.titolo}</h2>
@@ -97,6 +105,23 @@ Le tue risposte sono solo in formato JSON come questo esempio:
     recipeImage.innerHTML = `<img src="${imageUrl}" alt="recipe image"`;
 
     clearBowl();
+}
+
+function getRandomLoadingMessage() {
+    const messages = [
+        'Preparo gli ingredienti...',
+        'Scaldo i fornelli...',
+        'Mescolo nella ciotola...',
+        'Scatto foto per Instagram...',
+        'Prendo il mestolo...',
+        'Metto il grembiule...',
+        'Mi lavo le mani...',
+        'Tolgo le bucce...',
+        'Pulisco il ripiano...'
+    ];
+
+    const randomIndex = Math.floor(Math.random() * messages.length)
+    return messages[randomIndex];
 }
 
 function clearBowl(params) {
