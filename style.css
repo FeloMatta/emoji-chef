@@ -35,7 +35,7 @@ button{
 }
 
 img{
-    width: 100%;
+    max-width: 100%;
 }
 
 /* HEADER */
@@ -169,6 +169,10 @@ header{
     background-position: center;
     background-repeat: no-repeat;
     min-height: 200px;
+}
+
+.recipe-image img{
+    width: 100%;
 }
 
 .recipe-content{
