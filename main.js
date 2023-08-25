@@ -10,6 +10,10 @@ const ingredients = document.querySelectorAll('.ingredient');
 const bowlSlots = document.querySelectorAll('.bowl-slot');
 const cookButton = document.querySelector('#cook-button');
 const loading = document.querySelector('.loading');
+const modal = document.querySelector('.modal');
+const modalClose = document.querySelector('.modal-close');
+const recipeContent = document.querySelector('.recipe-content');
+const recipeImage = document.querySelector('.recipe-image');
 
 let bowl = [];
 
@@ -17,6 +21,10 @@ ingredients.forEach(function (element){
     element.addEventListener('click', function (){
         addIngredient(element.innerText);
     })
+});
+
+modalClose.addEventListener('click', function(){
+    modal.classList.add('hidden');
 });
 
 cookButton.addEventListener('click', createRecipe);
@@ -71,7 +79,32 @@ Le tue risposte sono solo in formato JSON come questo esempio:
 
     const recipe = JSON.parse(recipeResponse.choices[0].message.content);
 
-    
+    loading.classList.add('hidden');
+    modal.classList.remove('hidden');
+
+    recipeContent.innerHTML = `\
+<h2>${recipe.titolo}</h2>
+<p>${recipe.ingredienti}</p>
+<p>${recipe.istruzioni}</p>`;
+
+    const imageResponse = await makeRequest(OPENAI.IMAGE_ENDPOINT, {
+        prompt:  recipe.titolo,
+        n: 1,
+        size:'512x512'
+    });
+
+    const imageUrl = imageResponse.data[0].url;
+    recipeImage.innerHTML = `<img src="${imageUrl}" alt="recipe image"`;
+
+    clearBowl();
+}
+
+function clearBowl(params) {
+    bowl = [];
+
+    bowlSlots.forEach(function (slot){
+        slot.innerText = '?';
+    });
 }
 
 async function makeRequest(endpoint, payload) {
