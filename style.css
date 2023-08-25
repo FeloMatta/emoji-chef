@@ -40,7 +40,7 @@ p{
 }
 
 .container > *{
-    margin-bottom: 12px;
+    margin-bottom: 24px;
 }
 
 .ingredients{
@@ -58,4 +58,27 @@ p{
     border-radius: 20px;
     font-size: 40px;
     line-height: 2;
+}
+
+.bowl{
+    background-color: white;
+    border: 2px solid #2619aa;
+    border-radius: 20px;
+    display: flex;
+}
+
+.bowl-slot{
+    width: 100%;
+    padding: 10px;
+    font-size: 40px;
+    font-weight: 700;
+    color: #b2d1fb;
+}
+
+.bowl-slot:first-child{
+    border-right: 2px solid #2619aa;
+}
+
+.bowl-slot:last-child{
+    border-left: 2px solid #2619aa;
 }
